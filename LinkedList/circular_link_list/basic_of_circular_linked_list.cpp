@@ -1,0 +1,10 @@
+/*
+
+Advantes of circular linked list
+
+we can start the transversing to any point 
+
+when we need the transvering in circular mannar
+
+
+*/
