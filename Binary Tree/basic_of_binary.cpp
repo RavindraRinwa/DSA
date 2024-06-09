@@ -15,11 +15,12 @@ Basic Terms
 
 */
 
-#include<iostream>
-#include<queue>
+#include <iostream>
+#include <queue>
 using namespace std;
 
-class node{
+class node
+{
 public:
     int data;
     node *left;
@@ -33,65 +34,70 @@ public:
     }
 };
 
+node *buildTree(node *root)
+{
 
-node*buildTree(node*root) {
+    int data;
+    cout << "Enter the data:";
+    cin >> data;
 
-        int data;
-        cout<<"Enter the data:";
-        cin>>data;
+    root = new node(data);
 
-        root = new node(data);
+    if (data == -1)
+    {
+        return NULL;
+    }
 
-        if(data==-1){
-            return NULL;
-        }
-        
-        cout<<"Enter data  for inserting at left of "<<data<<endl;
-        root->left = buildTree(root->left);
-        cout<<"Enter data  for inserting at right of "<<data<<endl;
-        root->right = buildTree(root->right);
+    cout << "Enter data  for inserting at left of " << data << endl;
+    root->left = buildTree(root->left);
+    cout << "Enter data  for inserting at right of " << data << endl;
+    root->right = buildTree(root->right);
 
-        return root;
-
+    return root;
 }
 
-void levelOrderTransveral(node*root){
-    queue<node*>q;
-    node*temp = root;
+void levelOrderTransveral(node *root)
+{
+    queue<node *> q;
+    node *temp = root;
     q.push(root);
     // NULL use as a seprator
     q.push(NULL);
 
-    while(!q.empty()){
+    while (!q.empty())
+    {
 
-        node*temp = q.front();
-      
+        node *temp = q.front();
+
         q.pop();
 
-        if(temp==NULL){
-            cout<<endl;
-            if(q.empty()){
+        if (temp == NULL)
+        {
+            cout << endl;
+            if (!q.empty())
+            {
                 q.push(NULL);
             }
         }
-        else{
-            cout<<temp->data<<" ";
-            if(temp->left){
-            q.push(temp->left);
+        else
+        {
+            cout << temp->data << " ";
+            if (temp->left)
+            {
+                q.push(temp->left);
             }
 
-           if(temp->right){
-            q.push(temp->right);
-           }
-
-        } 
-
+            if (temp->right)
+            {
+                q.push(temp->right);
+            }
+        }
     }
 }
 
 int main()
 {
-    node*root = NULL;
+    node *root = NULL;
     root = buildTree(root);
 
     levelOrderTransveral(root);

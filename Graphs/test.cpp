@@ -1,90 +1,72 @@
-//{ Driver Code Starts
-#include <bits/stdc++.h>
+#include<iostream>
+#include<vector>
 using namespace std;
-
-// } Driver Code Ends
-
-class Solution {
-public:
-  void BFS(unordered_map<int, vector<int>> ad, unordered_map<int, bool> &visited,
-           vector<int> &ans) {
-    queue<int> q;
-    q.push(0);
-    visited[0] = true;
-
-    while (!q.empty()) {
-      int ele = q.front();
-      q.pop();
-
-      ans.push_back(ele);
-
-      // Process neighbors in the order they were added
-      for (int i = 0; i < ad[ele].size(); i++) {
-        int neigh = ad[ele][i];
-        if (!visited[neigh]) {
-          q.push(neigh);
-          visited[neigh] = true;
+void DFS( vector<vector<int>>&adj,vector<int>&visited,int &count,int&maxHeight,int node){
+    //step 1.
+    visited[node] = true;
+    //
+    for(auto i:adj[node]){
+        if(!visited[i]){
+            ++count;
+            DFS(adj,visited,count,maxHeight,i);
         }
+    }
+    
+    maxHeight = max(count,maxHeight);
+    
+}
+int solve(int n,vector<vector<int>>&edges,int x,int k,vector<int>&addNode){
+    // make tree
+    // 1 to n so carefull
+    vector<vector<int>>adj(n+1);
+    for(int i = 0;i<n-1;i++){
+        
+         int u = edges[i][0];
+         
+         int v = edges[i][1];
+         
+         adj[u].push_back(v);
+         
+         adj[v].push_back(u);
+         
+         
+    }  
+         int maxHeight = -1;
+         
+         vector<int>visited(n+1,false);
+         
+         // k additional node should remove so make true
+         for(int i = 0;i<k;i++){
+            visited[addNode[i]] = true;
+         }
+         
+        int count=0;
+        
+        DFS(adj,visited,count,maxHeight,x);
+        
+        return maxHeight;
+        
+    }
+int main(){
+    // no.of nodes and queries
+    int n,q;
+    cin>>n>>q;
+    
+    vector<vector<int>>edges(n-1);
+    for(int i = 0;i<n-1;i++){
+         cin>>edges[i][0];
+         cin>>edges[i][1];
+    }
+    
+    int x,k;
+    for(int i = 0;i<q;i++){
+      cin>>x>>k;
+      vector<int>addNode(k);
+      for(int j = 0;j<k;j++){
+          cin>>addNode[j];
       }
+     cout<< solve(n,edges,x,k,addNode) <<endl;
     }
-  }
-
-  // Function to return Breadth First Traversal of given graph.
-  vector<int> bfsOfGraph(int n, vector<int> adj[]) {
-    vector<int> ans;
-    // creating graph
-    unordered_map<int, vector<int>> ad;
-
-    for (int i = 0; i < n; i++) {
-      for (int j = 0; j < adj[i].size(); j++) {
-         ad[i].push_back(adj[i][j]);
-        // ad[adj[i][j]].push_back(i);
-      }
-    }
-
-    unordered_map<int, bool> visited;
-    // intial sub false hoge
-
-    // now BFS
-    // for loop for disconnect graph
-    for (int i = 0; i < n; i++) {
-      if (visited[i] == false) {
-        BFS(ad, visited, ans);
-      }
-    }
-
-    return ans;
-  }
-
-};
-
-//{ Driver Code Starts.
-int main() {
-    int tc;
-    cin >> tc;
-    while (tc--) {
-        int V, E;
-        cin >> V >>
-
-            E;
-
-        vector<int> adj[V];
-
-        for (int i = 0; i < E; i++) {
-            int u, v;
-            cin >> u >> v;
-            adj[u].push_back(v);
-            // 		adj[v].push_back(u);
-        }
-        // string s1;
-        // cin>>s1;
-        Solution obj;
-        vector<int> ans = obj.bfsOfGraph(V, adj);
-        for (int i = 0; i < ans.size(); i++) {
-            cout << ans[i] << " ";
-        }
-        cout << endl;
-    }
+    
     return 0;
 }
-// } Driver Code Ends

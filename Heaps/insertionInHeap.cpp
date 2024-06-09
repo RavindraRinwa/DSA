@@ -8,7 +8,8 @@ public:
   int arr[100];
   int size;
 
-  Heap(){
+  Heap()
+  {
     arr[0] = -1;
     size = 0;
   }
@@ -39,32 +40,37 @@ public:
     for (int i = 1; i <= size; i++)
     {
       cout << arr[i] << " ";
-    }cout<<endl;
+    }
+    cout << endl;
   }
 
-  void deletionOfHeap(){
-    if(size==0){
-      cout<<"The Heap is Empty";
+  void deletionOfHeap()
+  {
+    if (size == 0)
+    {
+      cout << "The Heap is Empty";
     }
-    //put last element to top
+    // put last element to top
     arr[1] = arr[size];
-    //delete last node
+    // delete last node
     size--;
-    // reach correct pos of root 
-   
-   int i = 1;
+    // reach correct pos of root
 
-   while(i<size){
-      
+    int i = 1;
+
+    while (i < size)
+    {
+
       int largest = i;
-      int leftIndex = 2*i;
-      int rightIndex = 2*i+1;
+      int leftIndex = 2 * i;
+      int rightIndex = 2 * i + 1;
 
-      if(leftIndex <= size && arr[leftIndex] > arr[largest]){
-         largest = leftIndex;
+      if (leftIndex <= size && arr[leftIndex] > arr[largest])
+      {
+        largest = leftIndex;
       }
       /*
-      
+
                   52
                 /    \
               53      54
@@ -73,51 +79,54 @@ public:
 
           in this case if you choose maximum then swap
           so that we can make a maxi heap
-      
-      
+
+
       */
-      
-      if(rightIndex <= size && arr[rightIndex] > arr[largest]){
+
+      if (rightIndex <= size && arr[rightIndex] > arr[largest])
+      {
         largest = rightIndex;
       }
 
-      if(largest!=i){
-         swap(arr[i],arr[largest]);
-         i = largest;
+      if (largest != i)
+      {
+        swap(arr[i], arr[largest]);
+        i = largest;
       }
-      else{
-        return ;
+      else
+      {
+        return;
       }
-
     }
-   }
-
+  }
 };
 
-void heapifyAlgo(int*arr,int i,int n){
-     
-     int largest = i;
-     int left = 2*i+1;
-     int right = 2*i+2;
+void heapifyAlgo(int *arr, int i, int n)
+{
 
-     if(left < n && arr[left] > arr[largest]){
-         largest = left;
-     }
-     if(right<n && arr[right] > arr[largest]){
-        largest = right;
-     }
+  int largest = i;
+  int left = 2 * i + 1;
+  int right = 2 * i + 2;
 
-     if(largest!=i){
-        swap(arr[largest],arr[i]);
-        heapifyAlgo(arr,largest,n);
-     }
-     else{
-        return ;
-     }
+  if (left < n && arr[left] > arr[largest])
+  {
+    largest = left;
+  }
+  if (right < n && arr[right] > arr[largest])
+  {
+    largest = right;
+  }
 
+  if (largest != i)
+  {
+    swap(arr[largest], arr[i]);
+    heapifyAlgo(arr, largest, n);
+  }
+  else
+  {
+    return;
+  }
 }
-
-    
 
 int main()
 {
@@ -132,21 +141,21 @@ int main()
   h1.deletionOfHeap();
   h1.print();
 
-  int arr[6] = {7,10,4,3,20,15};
-  int n = 6;
+  int arr[5] = {50, 60, 30, 40, 70};
+  int n = 5;
 
-// because in CBT leaf node start form (n/2+1) to n keep in mind
+  // because in CBT leaf node start form (n/2+1) to n keep in mind
 
-
-  for(int i = (n/2)-1;i>=0;i--){
-        heapifyAlgo(arr,i,n);
+  for (int i = (n / 2) - 1; i >= 0; i--)
+  {
+    heapifyAlgo(arr, i, n);
   }
 
-  for (int i = 0; i <n; i++)
-    {
-      cout << arr[i] << " ";
-    }cout<<endl;
+  for (int i = 0; i < n; i++)
+  {
+    cout << arr[i] << " ";
+  }
+  cout << endl;
 
   return 0;
-
 }

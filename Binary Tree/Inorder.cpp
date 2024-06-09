@@ -15,66 +15,66 @@ explain. 1. N-->  print middel(parent) node
 
 Postorder ----> LRN
 
-
-
 */
 
-
-#include<iostream>
+#include <iostream>
 using namespace std;
 
-class node{
+class node
+{
 
 public:
     int data;
-    node*left;
-    node*right;
+    node *left;
+    node *right;
 
-    node(int d){
+    node(int d)
+    {
         data = d;
         left = NULL;
         right = NULL;
     }
-
 };
 
-node* buildTree(node*root){
-   
-      int data;
-      cout<<"Enter the data:"<<endl;
-      cin>>data;
+node *buildTree(node *root)
+{
 
-      root = new node(data);
+    int data;
+    cout << "Enter the data:" << endl;
+    cin >> data;
 
-      if(data==-1){
+    root = new node(data);
+
+    if (data == -1)
+    {
         return NULL;
-      }
+    }
 
-      cout<<"Enter the insertion data for left side of "<<data<<endl;
-      root->left = buildTree(root->left);
-      cout<<"Enter the insertion data for right side of "<<data<<endl;
-      root->right = buildTree(root->right);
+    cout << "Enter the insertion data for left side of " << data << endl;
+    root->left = buildTree(root->left);
+    cout << "Enter the insertion data for right side of " << data << endl;
+    root->right = buildTree(root->right);
 
-      return root;
-
+    return root;
 }
 
- void inorderTraversal(node*root){
+void inorderTraversal(node *root)
+{
 
-     if(root==NULL){  // vapis aaja (return back)
-        return ;
-     }
+    if (root == NULL)
+    { // vapis aaja (return back)
+        return;
+    }
 
-     inorderTraversal(root->left);// left ja(go to left)
-     cout<<root->data<<" ";// l to n
-     inorderTraversal(root->right);// then go to right
-     
+    inorderTraversal(root->left);  // left ja(go to left)
+    cout << root->data << " ";     // l to n
+    inorderTraversal(root->right); // then go to right
 }
-int main(){
-     node*root = NULL;
-     root = buildTree(root);
-     
-     cout<<"inorder traversal is:";
-     inorderTraversal(root);
+int main()
+{
+    node *root = NULL;
+    root = buildTree(root);
 
+    cout << "inorder traversal is:";
+    inorderTraversal(root);
 }
