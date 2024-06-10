@@ -1,3 +1,5 @@
+*.exe
+!*/bin/*.exe
 tttttt.cpp
 tttttt.exe
 tttttttttttt.cpp

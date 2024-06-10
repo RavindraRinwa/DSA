@@ -1,5 +1,6 @@
 #include <bits/stdc++.h>
 using namespace std;
+
 class SGTree
 {
     vector<int> seg;
@@ -27,12 +28,10 @@ public:
     int query(int ind, int low, int high, int l, int r)
     {
         // no overlap
-        // l r low high or low high l r
         if (r < low || high < l)
             return INT_MAX;
 
         // complete overlap
-        // [l low high r]
         if (low >= l && high <= r)
             return seg[ind];
 
@@ -41,6 +40,7 @@ public:
         int right = query(2 * ind + 2, mid + 1, high, l, r);
         return min(left, right);
     }
+
     void update(int ind, int low, int high, int i, int val)
     {
         if (low == high)
@@ -57,3 +57,17 @@ public:
         seg[ind] = min(seg[2 * ind + 1], seg[2 * ind + 2]);
     }
 };
+
+int main()
+{
+    int arr[] = {1, 3, 2, 7, 9, 11};
+    int n = sizeof(arr) / sizeof(arr[0]);
+    SGTree sgt(n);
+    sgt.build(0, 0, n - 1, arr);
+
+    cout << "Min in range [1, 4]: " << sgt.query(0, 0, n - 1, 1, 4) << endl; // Output should be 2
+    sgt.update(0, 0, n - 1, 3, 0);
+    cout << "After update, min in range [1, 4]: " << sgt.query(0, 0, n - 1, 1, 4) << endl; // Output should be 0
+
+    return 0;
+}
