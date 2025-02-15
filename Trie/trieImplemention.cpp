@@ -1,128 +1,87 @@
-#include<iostream>
-#include<string>
+#include <iostream>
+#include <string>
 using namespace std;
 
-class trieNode{
-     
-     public:
-     char data;
-     trieNode*children[26];
-     bool isTerminal;
+struct Node
+{
+    Node *links[26];
+    bool flag = false;
+    bool containsKey(char ch)
+    {
+        return links[ch - 'a'] != NULL;
+    }
+    void put(char ch, Node *node)
+    {
+        links[ch - 'a'] = node;
+    }
 
-     trieNode(char ch){
-           data = ch;
-           isTerminal = false;
-           for(int i = 0;i<26;i++){
-               children[i] = NULL;
-           }
-     }
+    Node *get(char ch)
+    {
+        return links[ch - 'a'];
+    }
 
+    void setEnd()
+    {
+        flag = 1;
+    }
+
+    bool isEnd()
+    {
+        return flag;
+    }
 };
 
-class trie{
+class Trie
+{
+private:
+    Node *root;
 
-   public:
+public:
+    Trie()
+    {
+        root = new Node();
+    }
 
-   trieNode*root;
-
-   trie(){
-      root = new trieNode('\0');
-   }
-
-   void insert(trieNode*root,string word){
-      // base case
-       if(word.length()==0){
-           root->isTerminal = true;
-           return ;
-       }
- 
-       int index = word[0]-'A';
-       trieNode*child;
-      // ask to root
-      //present
-      if(root->children[index]!=NULL){
-          child = root->children[index];
-      }
-      // absent
-      else{
-          child = new trieNode(word[0]);
-          root->children[index] = child;
-      }
-      //recursion
-      // Copy substring after pos
-      insert(root->children[index],word.substr(1));
-
-   }
-
-   void insertionINTrie(string word){
-        insert(root,word);
-   }
-
-
-   bool searchNode(string word){
-        // ask to root present or not
-
-        trieNode*temp = root;
-        
-        while(word.length()!=0 ){
-
-         int index = word[0]-'A';
-
-         if(temp->children[index]==NULL){
-             return false;
-         }
-
-        word = word.substr(1);
-
-        temp = temp->children[index];
-
-        } 
-      return temp->isTerminal;
-      
-   }
-    
-   void deleteNode(string word){
-
-      trieNode*temp = root;
-        
-        while(word.length()!=0){
-            int index = word[0]-'A';
-
-            if(temp->children[index]==NULL){
-                cout<<"The Word is Not present";
+    void insert(string word)
+    {
+        Node *node = root;
+        for (int i = 0; i < word.length(); i++)
+        {
+            if (!node->containsKey(word[i]))
+            {
+                node->put(word[i], new Node());
             }
-
-             word = word.substr(1);
-
-             temp = temp->children[index];
-
+            node = node->get(word[i]);
         }
 
-        if(temp->isTerminal){
-             temp->isTerminal = false;
-        }
-        else{
-            cout<<"The Word is Not present";
-        }
+        node->setEnd();
+    }
 
-   }
+    bool searchNode(string word)
+    {
+        Node *node = root;
+        for (int i = 0; i < word.length(); i++)
+        {
+            if (!node->containsKey(word[i]))
+            {
+                return false;
+            }
+            node = node->get(word[i]);
+        }
+        return node->isEnd();
+    }
+
+    bool startWith(string word)
+    {
+        Node *node = root;
+        for (int i = 0; i < word.length(); i++)
+        {
+            if (!node->containsKey(word[i]))
+            {
+                return false;
+            }
+            node = node->get(word[i]);
+        }
+        return true;
+    }
 };
-
-
-int main(){
-
-    trie *t = new trie();
-    // trieNode*root;
-    t->insertionINTrie("ABCD");
-
-    cout<<"Present or Not:";
-
-    if(t->searchNode("ABCD")){
-        cout<<"YES";
-    }
-    else{
-        cout<<"NO";
-    }
-
-    return 0;
-}
